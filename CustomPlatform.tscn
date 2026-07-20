@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cfxhfb6p5b7at"]
+
+[ext_resource type="Script" uid="uid://c2kxy1sl4i4jd" path="res://CustomPlatformScript.gd" id="1_py0lj"]
+[ext_resource type="Script" uid="uid://eq4ukxi0w5t" path="res://PlatformRenderer.gd" id="2_e2fjw"]
+
+[node name="CustomPlatform" type="StaticBody2D" unique_id=1435758901]
+script = ExtResource("1_py0lj")
+
+[node name="Path2D" type="Path2D" parent="." unique_id=1911236960]
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=161738925]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=748794585]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1024153923]
+script = ExtResource("2_e2fjw")

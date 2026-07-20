@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bj24whuijr0uy"]
+
+[ext_resource type="Script" uid="uid://bj7cmsor21866" path="res://CurvedPlatformScript.gd" id="1_645ad"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_645ad"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_iakci"]
+noise = SubResource("FastNoiseLite_645ad")
+
+[node name="CurvedPlatform" type="StaticBody2D" unique_id=854991810]
+script = ExtResource("1_645ad")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=342720464]
+texture = SubResource("NoiseTexture2D_iakci")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=774955030]

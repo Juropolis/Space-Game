@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://3usibqxrogdl"]
+
+[ext_resource type="Script" uid="uid://clus0hmjndpf7" path="res://PlayerScript.gd" id="1_xhfnw"]
+[ext_resource type="PackedScene" uid="uid://vj1hspk853c1" path="res://Attack.tscn" id="2_kpjcp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xhfnw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
+radius = 3.7831864
+
+[node name="Player" type="CharacterBody2D" unique_id=883445505]
+collision_layer = 2
+script = ExtResource("1_xhfnw")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2025698537]
+position = Vector2(3.5762787e-07, -7.1525574e-07)
+scale = Vector2(19.999998, 20)
+texture = SubResource("PlaceholderTexture2D_xhfnw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=310852028]
+shape = SubResource("RectangleShape2D_xhfnw")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1043043722]
+zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1340188634]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2043699149]
+shape = SubResource("RectangleShape2D_kpjcp")
+
+[node name="HitboxPivot" type="Marker2D" parent="." unique_id=59277603]
+
+[node name="Attack" parent="HitboxPivot" unique_id=1595727284 instance=ExtResource("2_kpjcp")]
+collision_layer = 8
+collision_mask = 4
+
+[node name="GravityDetector" type="Area2D" parent="." unique_id=1866955975]
+collision_layer = 2
+
+[node name="GravityDetectorShape" type="CollisionShape2D" parent="GravityDetector" unique_id=822360248]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_kpjcp")
+
+[connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
+[connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]

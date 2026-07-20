@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dy7mip4yf0kn7"]
+
+[ext_resource type="Script" uid="uid://kdpl56y5g3d3" path="res://GravityFieldScript.gd" id="1_2hiue"]
+[ext_resource type="PackedScene" uid="uid://bj24whuijr0uy" path="res://CurvedPlatform.tscn" id="1_8g7i6"]
+[ext_resource type="Script" uid="uid://bj7cmsor21866" path="res://CurvedPlatformScript.gd" id="1_485rr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_klsso"]
+
+[sub_resource type="Gradient" id="Gradient_2hiue"]
+offsets = PackedFloat32Array(0.9789157, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8g7i6"]
+gradient = SubResource("Gradient_2hiue")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.8, 0.8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2hiue"]
+radius = 22.251654
+
+[node name="Planet" type="StaticBody2D" unique_id=85159679]
+scale = Vector2(10, 10)
+collision_mask = 2
+script = ExtResource("1_485rr")
+
+[node name="PlanetShape" type="CollisionShape2D" parent="." unique_id=19499446]
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("CircleShape2D_klsso")
+debug_color = Color(0.99999994, 0.08107153, 0.83457214, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="PlanetShape" unique_id=1862592354]
+position = Vector2(-2.3841858e-07, 0)
+scale = Vector2(0.37968752, 0.37968752)
+texture = SubResource("GradientTexture2D_8g7i6")
+
+[node name="GravityField" type="Area2D" parent="." unique_id=791521427]
+scale = Vector2(0.9999998, 0.9999998)
+collision_mask = 2
+script = ExtResource("1_2hiue")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" unique_id=76242240]
+position = Vector2(-2.9802322e-08, 2.9802322e-08)
+scale = Vector2(2.5, 2.5)
+shape = SubResource("CircleShape2D_2hiue")
+
+[node name="CurvedPlatform" parent="." unique_id=854991810 instance=ExtResource("1_8g7i6")]
+position = Vector2(-1.4901161e-08, -5.9604645e-08)
+distance_from_planet = 18.0
+arc_length = 160.0
+thickness = 3.6
+
+[node name="CurvedPlatform2" parent="." unique_id=920221489 instance=ExtResource("1_8g7i6")]
+position = Vector2(-1.4901161e-08, -5.9604645e-08)
+distance_from_planet = 29.0
+start_angle = 286.5
+arc_length = 58.0
+thickness = 2.7
