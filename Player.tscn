@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://3usibqxrogdl"]
 
 [ext_resource type="Script" uid="uid://clus0hmjndpf7" path="res://PlayerScript.gd" id="1_xhfnw"]
-[ext_resource type="PackedScene" uid="uid://vj1hspk853c1" path="res://Attack.tscn" id="2_kpjcp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xhfnw"]
 
@@ -29,6 +28,7 @@ shape = SubResource("RectangleShape2D_xhfnw")
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1043043722]
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
+position_smoothing_speed = 8.0
 
 [node name="Camera2D2" type="Camera2D" parent="." unique_id=29000209]
 ignore_rotation = false
@@ -39,12 +39,6 @@ zoom = Vector2(4, 4)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2043699149]
 shape = SubResource("RectangleShape2D_kpjcp")
-
-[node name="HitboxPivot" type="Marker2D" parent="." unique_id=59277603]
-
-[node name="Attack" parent="HitboxPivot" unique_id=1595727284 instance=ExtResource("2_kpjcp")]
-collision_layer = 8
-collision_mask = 4
 
 [node name="GravityDetector" type="Area2D" parent="." unique_id=1866955975]
 collision_layer = 2
