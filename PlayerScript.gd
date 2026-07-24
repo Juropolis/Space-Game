@@ -7,7 +7,7 @@ const TERMINAL_VELOCITY = 450
 const SPEED = 200.0
 const JUMP_FORCE = 500.0
 const JUMP_MULTIPLIER = 0.8
-const DASH_SPEED = 650
+const DASH_SPEED = 400.0
 const DASH_DECELERATION = 2200
 const WALK_ACCELERATION = 1000
 
@@ -15,14 +15,16 @@ const WALK_ACCELERATION = 1000
 const COYOTE_TIME = 0.15   # Seconds of coyote time
 const JUMP_BUFFER_TIME = 0.1	# Seconds of jump buffer time
 const WALL_STICK_TIME = 0.1
-const DASH_TIME = 0.25
+const DASH_TIME = 0.2
 const MSLASH_TIME = 0.5
+const DASH_RECHARGE_TIME = 3
 
 #Timers
 var coyote_timer = 0.0
 var jump_buffer_timer = 0.0
 var wall_timer = 0.0
 var dash_timer = 0.0
+var dash_recharge_timer = DASH_RECHARGE_TIME
 
 var dash_direction = 0
 var jump_type = "regular"
@@ -39,6 +41,9 @@ var down_angle = 0
 var up_angle = 0
 var last_up_angle = 0
 var total_gravity_direction = total_pull.normalized()
+var surface_tangent = Vector2.ZERO
+var dash_charges = 1
+var max_dash_charges = 3
 
 
 func _physics_process(delta):
@@ -49,6 +54,8 @@ func _physics_process(delta):
 		up_direction = -total_pull.normalized()
 
 	var input_direction = Input.get_axis("left", "right")
+	if input_direction != 0:
+		facing = input_direction
 	
 	update_timers(delta)
 	
@@ -57,11 +64,12 @@ func _physics_process(delta):
 			handle_movement(input_direction, delta)
 			handle_jump()
 			handle_dash_input(input_direction)
+			handle_dash_recharge(delta)
 			handle_attack_input()
-			handle_rotation(delta)
 
-		#"dashing":
-			#handle_dash(delta)
+		"dashing":
+			handle_dash(delta)
+			
 			#handle_jump() # if you want dash-jump cancel
 			#handle_attack_input()
 
@@ -70,6 +78,8 @@ func _physics_process(delta):
 			#handle_attack(delta)
 	
 	#Functions that always apply 
+	handle_rotation(delta)
+	
 	
 	move_and_slide()
 	
@@ -104,18 +114,22 @@ func apply_gravity(delta):
 	
 	velocity += total_pull * delta
 	
+	#Calculates all new directions due to gravity changing
 	if total_pull.length() > 0:
 		total_gravity_direction = total_pull.normalized()
+		up_direction = -total_gravity_direction
 		down_angle = total_gravity_direction.angle()
+		surface_tangent = Vector2(
+			-total_gravity_direction.y,
+			 total_gravity_direction.x
+		)
+		
+	
 	
 func handle_movement(input_direction, delta):
 	
 	#for is_on_floor checks
-	if total_pull.length() > 0:
-		up_direction = -total_gravity_direction
-	
-	var surface_tangent = Vector2(-total_gravity_direction.y, total_gravity_direction.x)
-	
+
 	#Mess around with this value if cube starts bouncing or glitching
 	floor_snap_length = 0
 	
@@ -125,7 +139,9 @@ func handle_movement(input_direction, delta):
 	if active_gravity_fields.size() > 0:
 		#Movement code
 		var current_tangent_speed = velocity.dot(surface_tangent)
+		
 		var current_normal_velocity = velocity - surface_tangent * current_tangent_speed
+		
 		if input_direction != 0:
 			var target_tangent_speed = -input_direction * SPEED
 			current_tangent_speed = move_toward(current_tangent_speed, target_tangent_speed, delta * WALK_ACCELERATION)
@@ -185,6 +201,7 @@ func handle_jump():
 			velocity -= total_gravity_direction * (current_normal_speed * 0.5)
 
 
+
 func handle_attack_input():
 	if Input.is_action_just_pressed("mSlash"):
 		player_state = "attacking"
@@ -201,19 +218,46 @@ func handle_attack(delta):
 
 #Out of commision for now lmfao
 func handle_dash_input(input_direction):
-	if Input.is_action_just_pressed("dash"):
+	if Input.is_action_just_pressed("dash") && dash_charges > 0:
+		dash_charges -= 1
 		player_state = "dashing"
 		dash_timer = DASH_TIME
-		
-		dash_direction = input_direction
-		if dash_direction == 0:
+		if (input_direction != 0):
+			dash_direction = input_direction 
+		else:
 			dash_direction = facing
+		
+		var target_dash_speed = -dash_direction * DASH_SPEED
+		
+		var tangent_speed = velocity.dot(surface_tangent)
+		var normal_velocity = velocity - surface_tangent * tangent_speed
+
+		velocity = surface_tangent * target_dash_speed + normal_velocity
+		
+		
+		
+		
 		
 		
 func handle_dash(delta):
 	dash_timer -= delta
+
+	var normal_velocity = velocity - surface_tangent * velocity.dot(surface_tangent)
+
+	velocity = surface_tangent * (-dash_direction * DASH_SPEED) + normal_velocity
+
 	if dash_timer <= 0:
 		player_state = "neutral"
+		
+		
+func handle_dash_recharge(delta):
+	if dash_charges < max_dash_charges:
+		dash_recharge_timer -= delta
+		if dash_recharge_timer <= 0:
+			dash_charges = dash_charges + 1
+			dash_recharge_timer = DASH_RECHARGE_TIME
+			print("Dash ", dash_charges, " charged!")
+	
 
 #Adds planets to the active list when in gravity range
 func _on_gravity_detector_area_entered(area: Area2D):

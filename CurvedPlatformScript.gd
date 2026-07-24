@@ -66,7 +66,7 @@ func update_platform():
 	for i in range(0, subdivisions + 1):
 		var current_angle = start_angle_rad + (i * angle_step)
 		
-		# Trace a perfect circle radius based directly on your new Distance slider
+		# Trace a circle radius based on distance slider
 		var x = planet_centre.x + cos(current_angle) * distance_from_planet
 		var y = planet_centre.y + sin(current_angle) * distance_from_planet
 		var point = Vector2(x, y)
