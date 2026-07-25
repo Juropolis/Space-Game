@@ -120,8 +120,8 @@ func apply_gravity(delta):
 		up_direction = -total_gravity_direction
 		down_angle = total_gravity_direction.angle()
 		surface_tangent = Vector2(
-			-total_gravity_direction.y,
-			 total_gravity_direction.x
+			total_gravity_direction.y,
+			-total_gravity_direction.x
 		)
 		
 	
@@ -142,15 +142,28 @@ func handle_movement(input_direction, delta):
 		
 		var current_normal_velocity = velocity - surface_tangent * current_tangent_speed
 		
-		if input_direction != 0:
-			var target_tangent_speed = -input_direction * SPEED
-			current_tangent_speed = move_toward(current_tangent_speed, target_tangent_speed, delta * WALK_ACCELERATION)
-		
-		#If you're touching a planet	
-		else:
-			if is_on_floor():
+		if is_on_floor():
+			if input_direction != 0:
+				var target_tangent_speed = input_direction * SPEED
+				current_tangent_speed = move_toward(current_tangent_speed, target_tangent_speed, delta * WALK_ACCELERATION)
+			elif input_direction == 0:
 				#Slows the player down to a stop when arrows released
 				current_tangent_speed = move_toward(current_tangent_speed, 0.0, WALK_ACCELERATION * delta)
+	
+		else:
+			if input_direction != 0:
+				#If trying moving with the dash
+				if input_direction == sign(current_tangent_speed):
+					#If moving slower than regular speed allow forward movement
+					if abs(current_tangent_speed) < SPEED:
+						var target_tangent_speed = input_direction * SPEED
+						current_tangent_speed = move_toward(current_tangent_speed, target_tangent_speed, delta * WALK_ACCELERATION)
+				#If trying to move against the dash
+				elif input_direction == -sign(current_tangent_speed):
+					var target_tangent_speed = input_direction * SPEED
+					current_tangent_speed = move_toward(current_tangent_speed, target_tangent_speed, delta * WALK_ACCELERATION)
+					
+				
 		
 		velocity = (surface_tangent * current_tangent_speed) + current_normal_velocity
 			
@@ -227,7 +240,7 @@ func handle_dash_input(input_direction):
 		else:
 			dash_direction = facing
 		
-		var target_dash_speed = -dash_direction * DASH_SPEED
+		var target_dash_speed = dash_direction * DASH_SPEED
 		
 		var tangent_speed = velocity.dot(surface_tangent)
 		var normal_velocity = velocity - surface_tangent * tangent_speed
@@ -244,7 +257,7 @@ func handle_dash(delta):
 
 	var normal_velocity = velocity - surface_tangent * velocity.dot(surface_tangent)
 
-	velocity = surface_tangent * (-dash_direction * DASH_SPEED) + normal_velocity
+	velocity = surface_tangent * (dash_direction * DASH_SPEED) + normal_velocity
 
 	if dash_timer <= 0:
 		player_state = "neutral"
