@@ -9,13 +9,14 @@ const JUMP_FORCE = 500.0
 const JUMP_MULTIPLIER = 0.8
 const DASH_SPEED = 400.0
 const DASH_DECELERATION = 2200
-const WALK_ACCELERATION = 1000
+const WALK_ACCELERATION = 2000
+const DASH_CHAIN_WINDOW = 0.20
 
 #Times
 const COYOTE_TIME = 0.15   # Seconds of coyote time
 const JUMP_BUFFER_TIME = 0.1	# Seconds of jump buffer time
 const WALL_STICK_TIME = 0.1
-const DASH_TIME = 0.2
+const DASH_TIME = 0.5
 const MSLASH_TIME = 0.5
 const DASH_RECHARGE_TIME = 3
 
@@ -25,13 +26,18 @@ var jump_buffer_timer = 0.0
 var wall_timer = 0.0
 var dash_timer = 0.0
 var dash_recharge_timer = DASH_RECHARGE_TIME
+var DASH_COOLDOWN = 0.25
+var dash_cooldown = 0
 
+
+var can_chain_dash = false
 var dash_direction = 0
 var jump_type = "regular"
 var wall_running = false
 var facing = 1
 var player_state = "neutral"
 var attack_timer = 0.0
+var dash_speed = 0.0
 
 var active_gravity_fields: Array[Area2D] = []
 var relative_position = 0
@@ -42,8 +48,10 @@ var up_angle = 0
 var last_up_angle = 0
 var total_gravity_direction = total_pull.normalized()
 var surface_tangent = Vector2.ZERO
-var dash_charges = 1
+var dash_charges = 3
 var max_dash_charges = 3
+
+var dash_start_timestamp: int = 0
 
 
 func _physics_process(delta):
@@ -68,6 +76,7 @@ func _physics_process(delta):
 			handle_attack_input()
 
 		"dashing":
+			handle_dash_input(input_direction)
 			handle_dash(delta)
 			
 			#handle_jump() # if you want dash-jump cancel
@@ -79,6 +88,7 @@ func _physics_process(delta):
 	
 	#Functions that always apply 
 	handle_rotation(delta)
+	handle_dash_cooldown(delta)
 	
 	
 	move_and_slide()
@@ -231,37 +241,59 @@ func handle_attack(delta):
 
 #Out of commision for now lmfao
 func handle_dash_input(input_direction):
-	if Input.is_action_just_pressed("dash") && dash_charges > 0:
+	if Input.is_action_just_pressed("dash") and dash_charges > 0 and dash_cooldown <= 0:
+		
+		if player_state == "dashing":
+			if can_chain_dash == false:
+				return
+			
+			dash_speed += 150
+		
+		elif player_state == "neutral":
+			dash_speed = DASH_SPEED
+			
 		dash_charges -= 1
-		player_state = "dashing"
-		dash_timer = DASH_TIME
 		if (input_direction != 0):
 			dash_direction = input_direction 
 		else:
 			dash_direction = facing
+			
+		player_state = "dashing"
+		dash_timer = DASH_TIME
 		
-		var target_dash_speed = dash_direction * DASH_SPEED
+		can_chain_dash = false
 		
-		var tangent_speed = velocity.dot(surface_tangent)
-		var normal_velocity = velocity - surface_tangent * tangent_speed
+		dash_start_timestamp = Time.get_ticks_msec() 
+		
+		# Base wait time is 0.25 seconds (250ms)
+		var adaptive_wait_time = DASH_TIME - DASH_CHAIN_WINDOW
+		
 
-		velocity = surface_tangent * target_dash_speed + normal_velocity
+		if dash_speed > DASH_SPEED:
+			# Adds a small delay for every 150 speed added to help visually
+			var speed_modifier = (dash_speed - DASH_SPEED) / 150.0
+			adaptive_wait_time += (speed_modifier * 0.06)
 		
-		
-		
-		
+		$DashFlashTimer.start(DASH_TIME - DASH_CHAIN_WINDOW)
 		
 		
 func handle_dash(delta):
 	dash_timer -= delta
 
-	var normal_velocity = velocity - surface_tangent * velocity.dot(surface_tangent)
 
-	velocity = surface_tangent * (dash_direction * DASH_SPEED) + normal_velocity
+	var target_dash_speed = dash_direction * dash_speed
+		
+	var tangent_speed = velocity.dot(surface_tangent)
+	var normal_velocity = velocity - surface_tangent * tangent_speed
+
+	velocity = surface_tangent * target_dash_speed + normal_velocity
 
 	if dash_timer <= 0:
 		player_state = "neutral"
-		
+		dash_speed = DASH_SPEED
+		can_chain_dash = false
+		$AnimationPlayer.speed_scale = 1.0
+		dash_cooldown = DASH_COOLDOWN
 		
 func handle_dash_recharge(delta):
 	if dash_charges < max_dash_charges:
@@ -270,7 +302,22 @@ func handle_dash_recharge(delta):
 			dash_charges = dash_charges + 1
 			dash_recharge_timer = DASH_RECHARGE_TIME
 			print("Dash ", dash_charges, " charged!")
-	
+			
+func _on_dash_flash_timeout():
+	if player_state == "dashing" && dash_charges > 0:
+		
+		# Calculates how much time is left in the total dash
+		var time_passed = (Time.get_ticks_msec() - dash_start_timestamp) / 1000.0
+		var remaining_window_time = DASH_TIME - time_passed
+		
+		# Speeds up the animation based on the time it has to play
+		$AnimationPlayer.speed_scale = 1.0 / remaining_window_time
+		
+		can_chain_dash = true
+		$AnimationPlayer.play("dash_flash")
+		
+func handle_dash_cooldown(delta):
+	dash_cooldown -= delta
 
 #Adds planets to the active list when in gravity range
 func _on_gravity_detector_area_entered(area: Area2D):
@@ -285,6 +332,8 @@ func _on_gravity_detector_area_exited(area: Area2D):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Sprite2D.material.set_shader_parameter("flash", false)
+	$DashFlashTimer.timeout.connect(_on_dash_flash_timeout)
 	pass # Replace with function body.
 
 
