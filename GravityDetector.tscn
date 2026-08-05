@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://byxt1v432fona"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
+radius = 3.7831864
+
+[node name="GravityDetector" type="Area2D" unique_id=1322009057]
+collision_layer = 2
+
+[node name="GravityDetectorShape" type="CollisionShape2D" parent="." unique_id=1324053465]
+scale = Vector2(4, 4)
+shape = SubResource("CircleShape2D_kpjcp")

@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dy7mip4yf0kn7" path="res://Planet.tscn" id="1_6etvl"]
 [ext_resource type="PackedScene" uid="uid://3usibqxrogdl" path="res://Player.tscn" id="2_4hwty"]
+[ext_resource type="PackedScene" uid="uid://dbbocmn3jrv6q" path="res://Enemy.tscn" id="3_4hwty"]
 
 [node name="Space" type="Node2D" unique_id=568745688]
 
@@ -9,13 +10,16 @@
 position = Vector2(3.0000038, 156)
 scale = Vector2(20, 20)
 
-[node name="Player" parent="." unique_id=883445505 instance=ExtResource("2_4hwty")]
-position = Vector2(-193, -52)
-
 [node name="Planet2" parent="." unique_id=1622104546 instance=ExtResource("1_6etvl")]
 position = Vector2(-1609, -309)
 rotation = -6.295923
 
 [node name="Planet3" parent="." unique_id=1472670988 instance=ExtResource("1_6etvl")]
-position = Vector2(-4859, -5362.9995)
-scale = Vector2(100, 100)
+position = Vector2(-3320, -2999)
+scale = Vector2(50, 50)
+
+[node name="Enemy" parent="." unique_id=726626336 instance=ExtResource("3_4hwty")]
+position = Vector2(-127, -337)
+
+[node name="Player" parent="." unique_id=883445505 instance=ExtResource("2_4hwty")]
+position = Vector2(-36, -361)

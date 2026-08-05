@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://clus0hmjndpf7" path="res://PlayerScript.gd" id="1_xhfnw"]
 [ext_resource type="Shader" uid="uid://dapqnltqg423j" path="res://dash_flash.gdshader" id="2_kpjcp"]
+[ext_resource type="PackedScene" uid="uid://byxt1v432fona" path="res://GravityDetector.tscn" id="3_kne1u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kne1u"]
 resource_local_to_scene = true
@@ -14,9 +15,6 @@ shader_parameter/flash = true
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
 size = Vector2(16, 16)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_kpjcp"]
-radius = 3.7831864
 
 [sub_resource type="Animation" id="Animation_kpjcp"]
 length = 0.001
@@ -54,7 +52,7 @@ _data = {
 &"dash_flash": SubResource("Animation_kne1u")
 }
 
-[node name="Player" type="CharacterBody2D" unique_id=883445505]
+[node name="Player" type="CharacterBody2D" unique_id=883445505 groups=["player"]]
 collision_layer = 2
 floor_max_angle = 0.5235988
 script = ExtResource("1_xhfnw")
@@ -83,18 +81,13 @@ zoom = Vector2(4, 4)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2043699149]
 shape = SubResource("RectangleShape2D_kpjcp")
 
-[node name="GravityDetector" type="Area2D" parent="." unique_id=1866955975]
-collision_layer = 2
-
-[node name="GravityDetectorShape" type="CollisionShape2D" parent="GravityDetector" unique_id=822360248]
-scale = Vector2(4, 4)
-shape = SubResource("CircleShape2D_kpjcp")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1720807709]
 libraries/ = SubResource("AnimationLibrary_e80uo")
 
 [node name="DashFlashTimer" type="Timer" parent="." unique_id=967822053]
 one_shot = true
+
+[node name="GravityDetector" parent="." unique_id=1322009057 instance=ExtResource("3_kne1u")]
 
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]

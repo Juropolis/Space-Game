@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends GravityCharacter
 
 
 const GRAVITY = 900.0
@@ -39,29 +39,18 @@ var player_state = "neutral"
 var attack_timer = 0.0
 var dash_speed = 0.0
 
-var active_gravity_fields: Array[Area2D] = []
 var relative_position = 0
-var total_pull = Vector2.ZERO
-var rotation_speed = 6
-var down_angle = 0
-var up_angle = 0
 var last_up_angle = 0
-var total_gravity_direction = total_pull.normalized()
-var surface_tangent = Vector2.ZERO
 var dash_charges = 3
 var max_dash_charges = 3
 
 var dash_start_timestamp: int = 0
 
 
-func _physics_process(delta):
+func physics_update(delta):
 	
-	apply_gravity(delta)
-
-	if total_pull.length() > 0:
-		up_direction = -total_pull.normalized()
-
 	var input_direction = Input.get_axis("left", "right")
+	
 	if input_direction != 0:
 		facing = input_direction
 	
@@ -87,55 +76,10 @@ func _physics_process(delta):
 			#handle_attack(delta)
 	
 	#Functions that always apply 
-	handle_rotation(delta)
 	handle_dash_cooldown(delta)
 	
 	
-	move_and_slide()
-	
-	
-func apply_gravity(delta):
-	
-	total_pull = Vector2.ZERO
-	
-	for gravity_area in active_gravity_fields:
-		
-		var offset = gravity_area.global_position - global_position
-		var distance = offset.length()
-		
-		# Avoid division by zero if player is exactly on the gravity source
-		if distance == 0:
-			continue
-					   
-		var local_direction = offset.normalized()
 
-		#change 
-		
-		
-		var max_radius = gravity_area.gravity_radius
-		var gravity_strength = gravity_area.gravity_strength
-		
-		# Only applies if player is inside the gravity field
-		if distance < max_radius:
-			var scale_factor = 1.0 - (distance / max_radius)
-			var local_pull = gravity_strength * scale_factor
-			
-			total_pull += local_direction * local_pull
-	
-	velocity += total_pull * delta
-	
-	#Calculates all new directions due to gravity changing
-	if total_pull.length() > 0:
-		total_gravity_direction = total_pull.normalized()
-		up_direction = -total_gravity_direction
-		down_angle = total_gravity_direction.angle()
-		surface_tangent = Vector2(
-			total_gravity_direction.y,
-			-total_gravity_direction.x
-		)
-		
-	
-	
 func handle_movement(input_direction, delta):
 	
 	#for is_on_floor checks
@@ -183,10 +127,6 @@ func handle_movement(input_direction, delta):
 	# Move along the surface, not against gravity
 	
 
-func handle_rotation(delta):
-	if active_gravity_fields.size() > 0:
-		up_angle = down_angle - PI/2
-		rotation = rotate_toward(rotation, up_angle, rotation_speed * delta)
 		
 		
 func hitbox_flip():
@@ -259,22 +199,23 @@ func handle_dash_input(input_direction):
 			dash_direction = facing
 			
 		player_state = "dashing"
-		dash_timer = DASH_TIME
 		
 		can_chain_dash = false
 		
 		dash_start_timestamp = Time.get_ticks_msec() 
 		
 		# Base wait time is 0.25 seconds (250ms)
-		var adaptive_wait_time = DASH_TIME - DASH_CHAIN_WINDOW
-		
+		var adaptive_wait_time = 0
 
 		if dash_speed > DASH_SPEED:
 			# Adds a small delay for every 150 speed added to help visually
 			var speed_modifier = (dash_speed - DASH_SPEED) / 150.0
 			adaptive_wait_time += (speed_modifier * 0.06)
+			
+		dash_timer = DASH_TIME + adaptive_wait_time
 		
-		$DashFlashTimer.start(DASH_TIME - DASH_CHAIN_WINDOW)
+		$DashFlashTimer.stop()
+		$DashFlashTimer.start(dash_timer - DASH_CHAIN_WINDOW)
 		
 		
 func handle_dash(delta):
@@ -304,30 +245,24 @@ func handle_dash_recharge(delta):
 			print("Dash ", dash_charges, " charged!")
 			
 func _on_dash_flash_timeout():
+	$AnimationPlayer.speed_scale = 1.0
 	if player_state == "dashing" && dash_charges > 0:
 		
 		# Calculates how much time is left in the total dash
 		var time_passed = (Time.get_ticks_msec() - dash_start_timestamp) / 1000.0
-		var remaining_window_time = DASH_TIME - time_passed
+		var remaining_window_time = dash_timer
 		
 		# Speeds up the animation based on the time it has to play
 		$AnimationPlayer.speed_scale = 1.0 / remaining_window_time
 		
 		can_chain_dash = true
+			
 		$AnimationPlayer.play("dash_flash")
 		
 func handle_dash_cooldown(delta):
 	dash_cooldown -= delta
 
-#Adds planets to the active list when in gravity range
-func _on_gravity_detector_area_entered(area: Area2D):
-	if area.has_method("get_gravity_strength"):
-		active_gravity_fields.append(area)
 
-#Removes planets from the active list when out of gravity range
-func _on_gravity_detector_area_exited(area: Area2D):
-	if area in active_gravity_fields:
-		active_gravity_fields.erase(area)
 	
 	
 # Called when the node enters the scene tree for the first time.
