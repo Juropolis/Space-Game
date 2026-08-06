@@ -12,7 +12,8 @@ func _process(delta: float) -> void:
 	
 func _on_area_entered(hurtbox):
 	# Condition is a placeholder for things like hurtbox invincibility, friendly fire etc.
-	
-	if hurtbox.has_method("hit_received"):
-		hurtbox.hit_received()
+	if hurtbox.is_in_group("hurtboxes"):
+		if hurtbox.has_method("hit_received"):
+			if hurtbox.owner.team != owner.team:
+				hurtbox.hit_received()
 	

@@ -28,8 +28,6 @@ var dash_timer = 0.0
 var dash_recharge_timer = DASH_RECHARGE_TIME
 var DASH_COOLDOWN = 0.25
 var dash_cooldown = 0
-var max_health = 5
-var health = max_health
 
 
 var can_chain_dash = false
@@ -43,10 +41,12 @@ var dash_speed = 0.0
 
 var relative_position = 0
 var last_up_angle = 0
-var dash_charges = 3
-var max_dash_charges = 3
 
 var dash_start_timestamp: int = 0
+
+@onready var HUD = $"../HUD"
+
+var team = "player"
 
 
 func physics_update(delta):
@@ -183,7 +183,7 @@ func handle_attack(delta):
 
 #Out of commision for now lmfao
 func handle_dash_input(input_direction):
-	if Input.is_action_just_pressed("dash") and dash_charges > 0 and dash_cooldown <= 0:
+	if Input.is_action_just_pressed("dash") and GameManager.player_dash_charges > 0 and dash_cooldown <= 0:
 		
 		if player_state == "dashing":
 			if can_chain_dash == false:
@@ -194,7 +194,7 @@ func handle_dash_input(input_direction):
 		elif player_state == "neutral":
 			dash_speed = DASH_SPEED
 			
-		dash_charges -= 1
+		GameManager.player_dash_charges -= 1
 		if (input_direction != 0):
 			dash_direction = input_direction 
 		else:
@@ -239,16 +239,16 @@ func handle_dash(delta):
 		dash_cooldown = DASH_COOLDOWN
 		
 func handle_dash_recharge(delta):
-	if dash_charges < max_dash_charges:
+	if GameManager.player_dash_charges < GameManager.player_max_dash_charges:
 		dash_recharge_timer -= delta
 		if dash_recharge_timer <= 0:
-			dash_charges = dash_charges + 1
+			GameManager.player_dash_charges += 1
 			dash_recharge_timer = DASH_RECHARGE_TIME
-			print("Dash ", dash_charges, " charged!")
+			print("Dash ", GameManager.player_dash_charges, " charged!")
 			
 func _on_dash_flash_timeout():
 	$AnimationPlayer.speed_scale = 1.0
-	if player_state == "dashing" && dash_charges > 0:
+	if player_state == "dashing" && GameManager.player_dash_charges > 0:
 		
 		# Calculates how much time is left in the total dash
 		var time_passed = (Time.get_ticks_msec() - dash_start_timestamp) / 1000.0
@@ -266,14 +266,16 @@ func handle_dash_cooldown(delta):
 
 
 func hit_received():
-	if health > 0:
-		health = health - 1
-		print(health, " hp")
+	if GameManager.player_health > 0:
+		GameManager.player_health -= 1
+		HUD.update_health(GameManager.player_health)
+		print(GameManager.player_health, " hp")
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Sprite2D.material.set_shader_parameter("flash", false)
 	$DashFlashTimer.timeout.connect(_on_dash_flash_timeout)
+	HUD.update_health(GameManager.player_health)
 	pass # Replace with function body.
 
 

@@ -45,3 +45,10 @@ distance_from_planet = 29.0
 start_angle = 286.5
 arc_length = 58.0
 thickness = 2.7
+
+[node name="CurvedPlatform3" parent="." unique_id=1051962545 instance=ExtResource("1_8g7i6")]
+distance_from_planet = 13.0
+start_angle = 331.5
+arc_length = 30.0
+subdivisions = 30
+thickness = 2.0

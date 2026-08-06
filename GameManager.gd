@@ -1,5 +1,12 @@
 extends Node
 
+var player_health = 3
+var player_max_health = 3
+
+var player_dash_charges = 3
+var player_max_dash_charges = 3
+
+
 
 func _input(event):
 	if event.is_action_pressed("pause"):

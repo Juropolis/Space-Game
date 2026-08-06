@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
 size = Vector2(16, 16)
 
-[node name="Hurtbox" type="Area2D" unique_id=1007594587]
+[node name="Hurtbox" type="Area2D" unique_id=1007594587 groups=["hurtboxes"]]
 collision_layer = 64
 collision_mask = 32
 script = ExtResource("1_5iwlp")

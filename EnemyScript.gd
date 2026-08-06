@@ -2,6 +2,8 @@ extends GravityCharacter
 
 var player
 
+var team = "enemy"
+
 func physics_update(delta):
 	pass
 	

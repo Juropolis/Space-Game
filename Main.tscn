@@ -1,9 +1,80 @@
 [gd_scene format=3 uid="uid://dnkm6te1qjxe5"]
 
 [ext_resource type="PackedScene" uid="uid://c27eln12k48eh" path="res://Space.tscn" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://bgwpqjl8g4tor" path="res://0 hearts.png" id="3_3dxm6"]
+[ext_resource type="Script" uid="uid://cwt8y78p8rklw" path="res://HUD.gd" id="3_lgr22"]
+[ext_resource type="Texture2D" uid="uid://wv4p31cna8st" path="res://1 hearts.png" id="4_lgr22"]
+[ext_resource type="Texture2D" uid="uid://q77tssrnbsx7" path="res://2 hearts.png" id="5_trn2v"]
+[ext_resource type="Texture2D" uid="uid://boegqwbihyiyl" path="res://3 hearts.png" id="6_03owx"]
+[ext_resource type="PackedScene" uid="uid://3usibqxrogdl" path="res://Player.tscn" id="8_03owx"]
+[ext_resource type="PackedScene" uid="uid://dbbocmn3jrv6q" path="res://Enemy.tscn" id="9_wkp8b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkp8b"]
+atlas = ExtResource("3_3dxm6")
+region = Rect2(0, 0, 2000, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_20pc6"]
+atlas = ExtResource("4_lgr22")
+region = Rect2(0, 0, 2000, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vvyt"]
+atlas = ExtResource("5_trn2v")
+region = Rect2(0, 0, 2000, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6i3y"]
+atlas = ExtResource("6_03owx")
+region = Rect2(0, 0, 2000, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uu6xs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkp8b")
+}],
+"loop": true,
+"name": &"0_hearts",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20pc6")
+}],
+"loop": true,
+"name": &"1_hearts",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vvyt")
+}],
+"loop": true,
+"name": &"2_hearts",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6i3y")
+}],
+"loop": true,
+"name": &"3_hearts",
+"speed": 5.0
+}]
 
 [node name="Main" type="Node2D" unique_id=1015383687]
 
 [node name="Space" parent="." unique_id=568745688 instance=ExtResource("1_glv2v")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=815276300]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=815276300]
+script = ExtResource("3_lgr22")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HUD" unique_id=2065732181]
+position = Vector2(105.99999, 51)
+scale = Vector2(0.07562498, 0.089999996)
+sprite_frames = SubResource("SpriteFrames_uu6xs")
+animation = &"0_hearts"
+
+[node name="Player" parent="." unique_id=883445505 instance=ExtResource("8_03owx")]
+position = Vector2(175, -30)
+
+[node name="Enemy" parent="." unique_id=726626336 instance=ExtResource("9_wkp8b")]
+position = Vector2(-233, 5)
