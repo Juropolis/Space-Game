@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="My Game (NP)"
-run/main_scene="uid://c27eln12k48eh"
+run/main_scene="uid://dnkm6te1qjxe5"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameManager="*uid://cfs4tj6l2ckrq"
 
 [input]
 
@@ -50,6 +54,11 @@ mSlash={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
 ]
 }
+pause={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"location":0,"echo":false,"script":null)
+]
+}
 
 [layer_names]
 
@@ -57,8 +66,9 @@ mSlash={
 2d_physics/layer_2="Player"
 2d_physics/layer_3="GravityField"
 2d_physics/layer_4="PlayerDetector"
-2d_physics/layer_5="Enemy"
-2d_physics/layer_6="Hitbox"
+2d_physics/layer_5="Enemies"
+2d_physics/layer_6="Hitboxes"
+2d_physics/layer_7="Hurtboxes"
 
 [physics]
 

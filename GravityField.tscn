@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://m7uivq1vxy5f"]
+
+[ext_resource type="Script" uid="uid://kdpl56y5g3d3" path="res://GravityFieldScript.gd" id="1_23cv2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2hiue"]
+radius = 22.251654
+
+[node name="GravityField" type="Area2D" unique_id=967535047]
+scale = Vector2(0.9999998, 0.9999998)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_23cv2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1379935968]
+position = Vector2(-2.9802322e-08, 2.9802322e-08)
+scale = Vector2(2.5, 2.5)
+shape = SubResource("CircleShape2D_2hiue")

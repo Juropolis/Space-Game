@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://dnkm6te1qjxe5"]
+
+[ext_resource type="PackedScene" uid="uid://c27eln12k48eh" path="res://Space.tscn" id="1_glv2v"]
+
+[node name="Main" type="Node2D" unique_id=1015383687]
+
+[node name="Space" parent="." unique_id=568745688 instance=ExtResource("1_glv2v")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=815276300]

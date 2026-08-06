@@ -28,6 +28,8 @@ var dash_timer = 0.0
 var dash_recharge_timer = DASH_RECHARGE_TIME
 var DASH_COOLDOWN = 0.25
 var dash_cooldown = 0
+var max_health = 5
+var health = max_health
 
 
 var can_chain_dash = false
@@ -263,7 +265,10 @@ func handle_dash_cooldown(delta):
 	dash_cooldown -= delta
 
 
-	
+func hit_received():
+	if health > 0:
+		health = health - 1
+		print(health, " hp")
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

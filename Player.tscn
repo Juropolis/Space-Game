@@ -2,7 +2,9 @@
 
 [ext_resource type="Script" uid="uid://clus0hmjndpf7" path="res://PlayerScript.gd" id="1_xhfnw"]
 [ext_resource type="Shader" uid="uid://dapqnltqg423j" path="res://dash_flash.gdshader" id="2_kpjcp"]
+[ext_resource type="PackedScene" uid="uid://c3k182eojl26q" path="res://Hurtbox.tscn" id="3_e80uo"]
 [ext_resource type="PackedScene" uid="uid://byxt1v432fona" path="res://GravityDetector.tscn" id="3_kne1u"]
+[ext_resource type="PackedScene" uid="uid://cea0rfcms7v83" path="res://Hitbox.tscn" id="5_cxr5p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kne1u"]
 resource_local_to_scene = true
@@ -12,9 +14,6 @@ shader_parameter/flash = true
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_xhfnw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhfnw"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_kpjcp"]
-size = Vector2(16, 16)
 
 [sub_resource type="Animation" id="Animation_kpjcp"]
 length = 0.001
@@ -54,6 +53,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" unique_id=883445505 groups=["player"]]
 collision_layer = 2
+collision_mask = 5
 floor_max_angle = 0.5235988
 script = ExtResource("1_xhfnw")
 
@@ -76,11 +76,6 @@ ignore_rotation = false
 enabled = false
 zoom = Vector2(4, 4)
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1340188634]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2043699149]
-shape = SubResource("RectangleShape2D_kpjcp")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1720807709]
 libraries/ = SubResource("AnimationLibrary_e80uo")
 
@@ -88,6 +83,12 @@ libraries/ = SubResource("AnimationLibrary_e80uo")
 one_shot = true
 
 [node name="GravityDetector" parent="." unique_id=1322009057 instance=ExtResource("3_kne1u")]
+
+[node name="Hurtbox" parent="." unique_id=1007594587 instance=ExtResource("3_e80uo")]
+scale = Vector2(1.1, 1.1)
+
+[node name="Hitbox" parent="." unique_id=1584378063 instance=ExtResource("5_cxr5p")]
+scale = Vector2(1.1, 1.1)
 
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]

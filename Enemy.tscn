@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dpqhsgyfje27b" path="res://EnemyScript.gd" id="1_tt7e2"]
 [ext_resource type="PackedScene" uid="uid://byxt1v432fona" path="res://GravityDetector.tscn" id="2_s7bn3"]
+[ext_resource type="PackedScene" uid="uid://c3k182eojl26q" path="res://Hurtbox.tscn" id="3_2hac7"]
+[ext_resource type="PackedScene" uid="uid://cea0rfcms7v83" path="res://Hitbox.tscn" id="4_e6d4v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gqquq"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_gqquq"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tt7e2"]
-size = Vector2(16, 16)
-
 [node name="Enemy" type="CharacterBody2D" unique_id=726626336 groups=["enemies"]]
+collision_layer = 16
 script = ExtResource("1_tt7e2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=372299807]
@@ -21,12 +21,13 @@ position = Vector2(2.3841858e-07, -4.7683716e-07)
 scale = Vector2(20, 20)
 texture = SubResource("PlaceholderTexture2D_gqquq")
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=168929267]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=856959003]
-shape = SubResource("RectangleShape2D_tt7e2")
-
 [node name="GravityDetector" parent="." unique_id=1322009057 instance=ExtResource("2_s7bn3")]
+
+[node name="Hurtbox" parent="." unique_id=1007594587 instance=ExtResource("3_2hac7")]
+scale = Vector2(1.1, 1.1)
+
+[node name="Hitbox" parent="." unique_id=1584378063 instance=ExtResource("4_e6d4v")]
+scale = Vector2(1.1, 1.1)
 
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]

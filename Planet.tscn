@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dy7mip4yf0kn7"]
 
-[ext_resource type="Script" uid="uid://kdpl56y5g3d3" path="res://GravityFieldScript.gd" id="1_2hiue"]
 [ext_resource type="PackedScene" uid="uid://bj24whuijr0uy" path="res://CurvedPlatform.tscn" id="1_8g7i6"]
 [ext_resource type="Script" uid="uid://bj7cmsor21866" path="res://CurvedPlatformScript.gd" id="1_485rr"]
+[ext_resource type="PackedScene" uid="uid://m7uivq1vxy5f" path="res://GravityField.tscn" id="2_485rr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_klsso"]
 
@@ -16,12 +16,9 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.8, 0.8)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_2hiue"]
-radius = 22.251654
-
 [node name="Planet" type="StaticBody2D" unique_id=85159679]
 scale = Vector2(10, 10)
-collision_mask = 2
+collision_mask = 18
 script = ExtResource("1_485rr")
 
 [node name="PlanetShape" type="CollisionShape2D" parent="." unique_id=19499446]
@@ -34,15 +31,7 @@ position = Vector2(-2.3841858e-07, 0)
 scale = Vector2(0.37968752, 0.37968752)
 texture = SubResource("GradientTexture2D_8g7i6")
 
-[node name="GravityField" type="Area2D" parent="." unique_id=791521427]
-scale = Vector2(0.9999998, 0.9999998)
-collision_mask = 2
-script = ExtResource("1_2hiue")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GravityField" unique_id=76242240]
-position = Vector2(-2.9802322e-08, 2.9802322e-08)
-scale = Vector2(2.5, 2.5)
-shape = SubResource("CircleShape2D_2hiue")
+[node name="GravityField" parent="." unique_id=967535047 instance=ExtResource("2_485rr")]
 
 [node name="CurvedPlatform" parent="." unique_id=854991810 instance=ExtResource("1_8g7i6")]
 position = Vector2(-1.4901161e-08, -5.9604645e-08)

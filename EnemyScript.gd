@@ -5,6 +5,9 @@ var player
 func physics_update(delta):
 	pass
 	
+	
+func hit_received():
+	print("Enemy hit")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
