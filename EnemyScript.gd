@@ -1,6 +1,7 @@
 extends GravityCharacter
 
 var player
+@onready var hurtbox = $Hurtbox
 
 var team = "enemy"
 
@@ -10,6 +11,8 @@ func physics_update(delta):
 	
 func hit_received():
 	print("Enemy hit")
+	hurtbox.make_invincible(20.0)
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

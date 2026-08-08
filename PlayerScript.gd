@@ -1,4 +1,5 @@
 extends GravityCharacter
+@onready var hurtbox = $Hurtbox
 
 
 const GRAVITY = 900.0
@@ -270,6 +271,7 @@ func hit_received():
 		GameManager.player_health -= 1
 		HUD.update_health(GameManager.player_health)
 		print(GameManager.player_health, " hp")
+		hurtbox.make_invincible(2.0)
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -31,3 +31,4 @@ scale = Vector2(1.1, 1.1)
 
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]
+[connection signal="area_exited" from="Hitbox" to="Hitbox" method="_on_area_exited"]
