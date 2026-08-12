@@ -1,5 +1,6 @@
 extends GravityCharacter
 @onready var hurtbox = $Hurtbox
+@onready var basic_attack = $BasicAttack
 
 
 const GRAVITY = 900.0
@@ -18,7 +19,7 @@ const COYOTE_TIME = 0.15   # Seconds of coyote time
 const JUMP_BUFFER_TIME = 0.1	# Seconds of jump buffer time
 const WALL_STICK_TIME = 0.1
 const DASH_TIME = 0.5
-const MSLASH_TIME = 0.5
+const BASIC_ATTACK_TIME = 0.25
 const DASH_RECHARGE_TIME = 3
 
 #Timers
@@ -71,12 +72,13 @@ func physics_update(delta):
 			handle_dash_input(input_direction)
 			handle_dash(delta)
 			
-			#handle_jump() # if you want dash-jump cancel
-			#handle_attack_input()
+			#handle_jump() # If i want dash-jump cancel
+			#handle_attack_input() # If i want dash-attack cancels
 
-		#"attacking":
+		"attacking":
 			#Add handle attack input if you want normal cancelling
-			#handle_attack(delta)
+			handle_movement(input_direction, delta)
+			handle_attack_timer(delta)
 	
 	#Functions that always apply 
 	handle_dash_cooldown(delta)
@@ -169,17 +171,21 @@ func handle_jump():
 
 
 func handle_attack_input():
-	if Input.is_action_just_pressed("mSlash"):
+	if Input.is_action_just_pressed("basic_attack"):
 		player_state = "attacking"
-		attack_timer = MSLASH_TIME
+		attack_timer = BASIC_ATTACK_TIME
+		basic_attack.start_attack()
+
 	
 #how violent
-func handle_attack(delta):
-	velocity.x = move_toward(velocity.x, 0, DASH_DECELERATION * delta)
+func handle_attack_timer(delta):
+	#velocity.x = move_toward(velocity.x, 0, DASH_DECELERATION * delta)
 	
+	# Core
 	attack_timer -= delta
 	if attack_timer <= 0:
 		player_state = "neutral"
+		basic_attack.end_attack()
 
 
 #Out of commision for now lmfao

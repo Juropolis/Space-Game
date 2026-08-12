@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dy7mip4yf0kn7"]
 
-[ext_resource type="PackedScene" uid="uid://bj24whuijr0uy" path="res://CurvedPlatform.tscn" id="1_8g7i6"]
+[ext_resource type="PackedScene" uid="uid://bj24whuijr0uy" path="res://curved_platform.tscn" id="1_8g7i6"]
 [ext_resource type="Script" uid="uid://bj7cmsor21866" path="res://CurvedPlatformScript.gd" id="1_485rr"]
 [ext_resource type="PackedScene" uid="uid://m7uivq1vxy5f" path="res://GravityField.tscn" id="2_485rr"]
 

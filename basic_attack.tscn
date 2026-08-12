@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://vj1hspk853c1"]
+
+[ext_resource type="Script" uid="uid://cx360f2bkc5r" path="res://basic_attack.gd" id="1_7mhut"]
+[ext_resource type="PackedScene" uid="uid://cea0rfcms7v83" path="res://Hitbox.tscn" id="2_3wj2b"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4igs5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3wj2b"]
+size = Vector2(53.5, 14)
+
+[node name="BasicAttack" type="Area2D" unique_id=1595727284]
+position = Vector2(20, 0)
+script = ExtResource("1_7mhut")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1161232799]
+position = Vector2(0, -1.9073486e-06)
+scale = Vector2(53.500004, 13.999999)
+texture = SubResource("PlaceholderTexture2D_4igs5")
+
+[node name="Hitbox" parent="." unique_id=1584378063 instance=ExtResource("2_3wj2b")]
+
+[node name="CollisionShape2D" parent="Hitbox" index="0" unique_id=1905624056]
+shape = SubResource("RectangleShape2D_3wj2b")
+
+[editable path="Hitbox"]

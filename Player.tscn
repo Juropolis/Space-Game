@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://dapqnltqg423j" path="res://dash_flash.gdshader" id="2_kpjcp"]
 [ext_resource type="PackedScene" uid="uid://c3k182eojl26q" path="res://Hurtbox.tscn" id="3_e80uo"]
 [ext_resource type="PackedScene" uid="uid://byxt1v432fona" path="res://GravityDetector.tscn" id="3_kne1u"]
-[ext_resource type="PackedScene" uid="uid://cea0rfcms7v83" path="res://Hitbox.tscn" id="5_cxr5p"]
+[ext_resource type="PackedScene" uid="uid://vj1hspk853c1" path="res://basic_attack.tscn" id="6_tdg3f"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kne1u"]
 resource_local_to_scene = true
@@ -87,8 +87,13 @@ one_shot = true
 [node name="Hurtbox" parent="." unique_id=1007594587 instance=ExtResource("3_e80uo")]
 scale = Vector2(1.1, 1.1)
 
-[node name="Hitbox" parent="." unique_id=1584378063 instance=ExtResource("5_cxr5p")]
-scale = Vector2(1.1, 1.1)
+[node name="BasicAttack" parent="." unique_id=1595727284 instance=ExtResource("6_tdg3f")]
+
+[node name="CollisionShape2D" parent="BasicAttack/Hitbox" parent_id_path=PackedInt32Array(1595727284, 1584378063) index="0" unique_id=1905624056]
+position = Vector2(0, 0)
 
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]
+
+[editable path="BasicAttack"]
+[editable path="BasicAttack/Hitbox"]
