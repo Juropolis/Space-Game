@@ -4,7 +4,9 @@ var touching_hurtboxes = []
 var hit_hurtboxes = []
 var attacker
 var can_multi_hit = false
-
+var hit_interval = 0.0
+var hit_timer = 0.0
+var damage = 10
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -18,16 +20,20 @@ func set_attacker(character):
 func new_attack():
 	hit_hurtboxes.clear()
 	
+func set_hit_interval(time):
+	hit_interval = time
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	for hurtbox in touching_hurtboxes:
 		if is_instance_valid(hurtbox):
 			
 			if can_multi_hit:
-				hurtbox.hit_received()
+				hurtbox.hit_received(damage)
 				
 			elif hurtbox not in hit_hurtboxes:
-				hurtbox.hit_received()
+				hurtbox.hit_received(damage)
 				hit_hurtboxes.append(hurtbox)
 	
 	

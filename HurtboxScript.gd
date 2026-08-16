@@ -16,9 +16,9 @@ func _process(delta: float) -> void:
 			handle_invincibility(delta)
 
 
-func hit_received():
+func hit_received(damage):
 	if hurtbox_state != "invincible":
-		get_parent().hit_received()
+		get_parent().hit_received(damage)
 	
 func handle_invincibility(delta):
 	invincibility_timer -= delta

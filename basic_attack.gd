@@ -1,5 +1,6 @@
 extends Node2D
 
+var ATTACK_DAMAGE = 10
 @onready var player = get_parent()
 @onready var hitbox = $Hitbox
 
@@ -7,6 +8,7 @@ func start_attack():
 	hitbox.set_attacker(player)
 	hitbox.new_attack()
 	hitbox.set_multi_hit(false)
+	hitbox.damage = ATTACK_DAMAGE
 	visible = true
 	hitbox.monitoring = true
 	update_direction()

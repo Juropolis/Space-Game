@@ -272,7 +272,7 @@ func handle_dash_cooldown(delta):
 	dash_cooldown -= delta
 
 
-func hit_received():
+func hit_received(damage):
 	if GameManager.player_health > 0:
 		GameManager.player_health -= 1
 		HUD.update_health(GameManager.player_health)
