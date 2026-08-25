@@ -89,9 +89,6 @@ scale = Vector2(1.1, 1.1)
 
 [node name="BasicAttack" parent="." unique_id=1595727284 instance=ExtResource("6_tdg3f")]
 
-[node name="CollisionShape2D" parent="BasicAttack/Hitbox" parent_id_path=PackedInt32Array(1595727284, 1584378063) index="0" unique_id=1905624056]
-position = Vector2(0, 0)
-
 [connection signal="area_entered" from="GravityDetector" to="." method="_on_gravity_detector_area_entered"]
 [connection signal="area_exited" from="GravityDetector" to="." method="_on_gravity_detector_area_exited"]
 
