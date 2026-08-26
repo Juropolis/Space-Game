@@ -66,16 +66,6 @@ texture = SubResource("PlaceholderTexture2D_xhfnw")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=310852028]
 shape = SubResource("RectangleShape2D_xhfnw")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1043043722]
-zoom = Vector2(2, 2)
-position_smoothing_enabled = true
-position_smoothing_speed = 8.0
-
-[node name="Camera2D2" type="Camera2D" parent="." unique_id=29000209]
-ignore_rotation = false
-enabled = false
-zoom = Vector2(4, 4)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1720807709]
 libraries/ = SubResource("AnimationLibrary_e80uo")
 
