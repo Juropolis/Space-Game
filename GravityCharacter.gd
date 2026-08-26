@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name GravityCharacter
 
+var current_tangent_speed = 0.0
+var current_normal_velocity = Vector2.ZERO
 var active_gravity_fields: Array[Area2D] = []
 var total_pull = Vector2.ZERO
 var total_gravity_direction = total_pull.normalized()
@@ -59,6 +61,12 @@ func apply_gravity(delta):
 			-total_gravity_direction.x
 		)
 
+func calculate_directional_speeds():
+	if active_gravity_fields.size() > 0:
+		#Movement code
+		current_tangent_speed = velocity.dot(surface_tangent)
+		current_normal_velocity = velocity - surface_tangent * current_tangent_speed
+	
 # Rotates the player to match the direction of gravitys pull
 func handle_rotation(delta):
 	if active_gravity_fields.size() > 0:

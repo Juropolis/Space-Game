@@ -86,21 +86,14 @@ func physics_update(delta):
 	
 
 func handle_movement(input_direction, delta):
+	calculate_directional_speeds()
 	
-	#for is_on_floor checks
-
 	#Mess around with this value if cube starts bouncing or glitching
 	floor_snap_length = 0
-	
-	
 	
 	#If you're in a gravity field
 	if active_gravity_fields.size() > 0:
 		#Movement code
-		var current_tangent_speed = velocity.dot(surface_tangent)
-		
-		var current_normal_velocity = velocity - surface_tangent * current_tangent_speed
-		
 		if is_on_floor():
 			if input_direction != 0:
 				var target_tangent_speed = input_direction * SPEED
@@ -278,6 +271,8 @@ func hit_received(damage):
 		HUD.update_health(GameManager.player_health)
 		print(GameManager.player_health, " hp")
 		hurtbox.make_invincible(2.0)
+		if GameManager.player_health <=0:
+			queue_free()
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
