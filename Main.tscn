@@ -77,10 +77,11 @@ sprite_frames = SubResource("SpriteFrames_uu6xs")
 animation = &"0_hearts"
 
 [node name="Player" parent="." unique_id=883445505 instance=ExtResource("8_03owx")]
-position = Vector2(175, -30)
+position = Vector2(-1187, -5646)
 
 [node name="Enemy" parent="." unique_id=726626336 instance=ExtResource("9_wkp8b")]
-position = Vector2(-233, 5)
+position = Vector2(-3683, -4447)
 
 [node name="Player Camera" parent="." unique_id=570724679 instance=ExtResource("10_20pc6")]
-zoom = Vector2(2, 2)
+zoom = Vector2(1.7, 1.7)
+position_smoothing_speed = 3.0

@@ -1,54 +1,133 @@
 [gd_scene format=3 uid="uid://dy7mip4yf0kn7"]
 
 [ext_resource type="PackedScene" uid="uid://bj24whuijr0uy" path="res://curved_platform.tscn" id="1_8g7i6"]
-[ext_resource type="Script" uid="uid://bj7cmsor21866" path="res://CurvedPlatformScript.gd" id="1_485rr"]
 [ext_resource type="PackedScene" uid="uid://m7uivq1vxy5f" path="res://GravityField.tscn" id="2_485rr"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_klsso"]
-
-[sub_resource type="Gradient" id="Gradient_2hiue"]
-offsets = PackedFloat32Array(0.9789157, 1)
-colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_8g7i6"]
-gradient = SubResource("Gradient_2hiue")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-fill_to = Vector2(0.8, 0.8)
 
 [node name="Planet" type="StaticBody2D" unique_id=85159679]
 scale = Vector2(10, 10)
 collision_mask = 18
-script = ExtResource("1_485rr")
-
-[node name="PlanetShape" type="CollisionShape2D" parent="." unique_id=19499446]
-scale = Vector2(0.9999998, 0.9999998)
-shape = SubResource("CircleShape2D_klsso")
-debug_color = Color(0.99999994, 0.08107153, 0.83457214, 0.41960785)
-
-[node name="Sprite2D" type="Sprite2D" parent="PlanetShape" unique_id=1862592354]
-position = Vector2(-2.3841858e-07, 0)
-scale = Vector2(0.37968752, 0.37968752)
-texture = SubResource("GradientTexture2D_8g7i6")
 
 [node name="GravityField" parent="." unique_id=967535047 instance=ExtResource("2_485rr")]
+scale = Vector2(5, 5)
 
-[node name="CurvedPlatform" parent="." unique_id=854991810 instance=ExtResource("1_8g7i6")]
-position = Vector2(-1.4901161e-08, -5.9604645e-08)
-distance_from_planet = 18.0
+[node name="Curved Platforms" type="Node2D" parent="." unique_id=786120431]
+
+[node name="CurvedPlatform9" parent="Curved Platforms" unique_id=1648401569 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 80.0
+start_angle = 90.0
+arc_length = 3.0
+subdivisions = 15
+thickness = 20.0
+
+[node name="CurvedPlatform7" parent="Curved Platforms" unique_id=216389342 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 80.0
+start_angle = 90.0
 arc_length = 160.0
-thickness = 3.6
+subdivisions = 50
+thickness = 5.0
 
-[node name="CurvedPlatform2" parent="." unique_id=920221489 instance=ExtResource("1_8g7i6")]
-position = Vector2(-1.4901161e-08, -5.9604645e-08)
-distance_from_planet = 29.0
-start_angle = 286.5
-arc_length = 58.0
-thickness = 2.7
+[node name="CurvedPlatform12" parent="Curved Platforms" unique_id=854991810 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 95.0
+start_angle = 55.0
+arc_length = 35.0
+subdivisions = 50
+thickness = 5.0
 
-[node name="CurvedPlatform3" parent="." unique_id=1051962545 instance=ExtResource("1_8g7i6")]
-distance_from_planet = 13.0
-start_angle = 331.5
-arc_length = 30.0
-subdivisions = 30
-thickness = 2.0
+[node name="CurvedPlatform10" parent="Curved Platforms" unique_id=32731407 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 95.0
+start_angle = 5.0
+arc_length = 40.0
+subdivisions = 50
+thickness = 5.0
+
+[node name="CurvedPlatform8" parent="Curved Platforms" unique_id=1384502724 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 50.0
+start_angle = 5.0
+arc_length = 85.0
+subdivisions = 50
+thickness = 5.0
+
+[node name="CurvedPlatform6" parent="Curved Platforms" unique_id=573887836 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.9999998, 0.9999998)
+distance_from_planet = 50.0
+start_angle = 90.0
+arc_length = 108.0
+subdivisions = 50
+thickness = 5.0
+
+[node name="CurvedPlatform13" parent="Curved Platforms" unique_id=1055848151 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 100.0
+start_angle = 42.0
+arc_length = 3.0
+subdivisions = 15
+thickness = 40.0
+
+[node name="CurvedPlatform14" parent="Curved Platforms" unique_id=1610018742 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 100.0
+start_angle = 55.0
+arc_length = 3.0
+subdivisions = 15
+thickness = 15.0
+
+[node name="CurvedPlatform15" parent="Curved Platforms" unique_id=1018720915 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 125.0
+start_angle = 55.0
+arc_length = 3.0
+subdivisions = 15
+thickness = 15.0
+
+[node name="CurvedPlatform11" parent="Curved Platforms" unique_id=1043680407 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 50.0
+start_angle = 5.0
+arc_length = 4.0
+subdivisions = 15
+thickness = 50.0
+
+[node name="CurvedPlatform5" parent="Curved Platforms" unique_id=320823988 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 35.0
+start_angle = 193.0
+arc_length = 5.0
+subdivisions = 15
+thickness = 20.0
+
+[node name="CurvedPlatform4" parent="Curved Platforms" unique_id=1194888033 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 35.0
+start_angle = 245.0
+arc_length = 5.0
+subdivisions = 15
+thickness = 50.0
+
+[node name="CurvedPlatform3" parent="Curved Platforms" unique_id=1051962545 instance=ExtResource("1_8g7i6")]
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 35.0
+start_angle = 245.0
+arc_length = 313.0
+subdivisions = 50
+thickness = 5.0
+
+[node name="CurvedPlatform2" parent="Curved Platforms" unique_id=920221489 instance=ExtResource("1_8g7i6")]
+position = Vector2(-1.490116e-08, -5.960464e-08)
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 223.0
+arc_length = 32.5
+thickness = 10.6
+
+[node name="CurvedPlatform" parent="Curved Platforms" unique_id=136306126 instance=ExtResource("1_8g7i6")]
+position = Vector2(-1.490116e-08, -5.960464e-08)
+scale = Vector2(0.99999994, 0.99999994)
+distance_from_planet = 177.0
+start_angle = 1.0
+arc_length = 360.0
+subdivisions = 200
+thickness = 13.1

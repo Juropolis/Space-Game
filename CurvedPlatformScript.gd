@@ -9,7 +9,7 @@ var collision_polygon: CollisionPolygon2D:
 	get:
 		return get_node_or_null("CollisionPolygon2D")
 
-@export_range(5.0, 500.0, 1.0) var distance_from_planet: float = 300.0: # Floating distance from center
+@export_range(0.0, 500.0, 1.0) var distance_from_planet: float = 300.0: # Floating distance from center
 	set(value):
 		distance_from_planet = value
 		update_platform()
@@ -74,7 +74,7 @@ func update_platform():
 		visual_surface.append(point)
 		
 		var direction_to_centre = (planet_centre - point).normalized()
-		var safe_thickness = min(thickness, distance_from_planet * 0.8)
+		var safe_thickness = thickness
 		var bottom_point = point - (direction_to_centre * safe_thickness)
 		
 		extruded_floor.append(bottom_point)	

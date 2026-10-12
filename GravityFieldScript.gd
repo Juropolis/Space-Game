@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var gravity_strength: float = 1200
+@export var gravity_strength: float = 2000
 @onready var collision_shape = $CollisionShape2D
 
 var gravity_radius: float:

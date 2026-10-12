@@ -5,13 +5,14 @@
 [node name="Space" type="Node2D" unique_id=568745688]
 
 [node name="Planet" parent="." unique_id=85159679 instance=ExtResource("1_6etvl")]
-position = Vector2(3.0000038, 156)
-scale = Vector2(20, 20)
+scale = Vector2(30, 30)
 
 [node name="Planet2" parent="." unique_id=1622104546 instance=ExtResource("1_6etvl")]
-position = Vector2(-1609, -309)
-rotation = -6.295923
+position = Vector2(8771, -8753)
+rotation = -2.3945918
+scale = Vector2(2, 2)
 
 [node name="Planet3" parent="." unique_id=1472670988 instance=ExtResource("1_6etvl")]
-position = Vector2(-3320, -2999)
-scale = Vector2(50, 50)
+position = Vector2(7042, -8952)
+rotation = -0.8709193
+scale = Vector2(2, 2)
